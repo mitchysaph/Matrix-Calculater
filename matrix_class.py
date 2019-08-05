@@ -1,4 +1,4 @@
-memo={}
+memo={} #matrixの保管場所
 
 class matrix:
     def __init__(self,name,contents,error):
@@ -11,16 +11,16 @@ calculate_answer=matrix('calculate_answer',[[]],True)
 
 def times (x,y): #積
     n,m=len(x),len(y[0])
-    k,l=len([0]),len(y)
-    if l!=m:
+    k,l=len(x[0]),len(y)
+    if l!=k:
         print('error!')
         calculate_answer.error=False
         return
-    ans=[[0 for j in range(n)] for i in range(m)]
-    for i in range(m):
-        for j in range(n):
+    ans=[[0 for j in range(m)] for i in range(n)]
+    for i in range(n):
+        for j in range(m):
             for h in range(k):
-                ans[i][j]+=x[h][j]*y[i][h]
+                ans[i][j]+=y[h][j]*x[i][h]
     calculate_answer.contents=ans
     calculate_answer.error=True
     return
@@ -109,14 +109,35 @@ def det(n,co,da,ju): #行列式の再帰
                 di=-di
         return ans
             
-def det_calculate(x):
+def det_calculate(x): #行列式の計算
     if x.IsSquare:
         n=len(x.contents)
         ju=[True for i in range(n)]
         print(det(n,0,x.contents,ju))
     else:
-        print('{} is not square matrix'.format(x.name))
+        print('{} is not square matrix.'.format(x.name))
     return
+
+def trace (x): #trace
+    if x.IsSquare:
+        ans=0
+        n=len(x.contents)
+        for i in range(n):
+            ans+=x.contents[i][i]
+        print(ans)
+    else:
+        print('{} is not square matrix.'.format(x.name))
+
+def transposed(x): #転置
+    if x.IsSquare:
+        calculate_answer.error=False
+        return
+    else:
+        n=len(x.contents)
+        ans=[[x.contents[j][i] for j in range(n)] for i in range(n)]
+        calculate_answer.contents=ans
+        calculate_answer.error=True
+        return
 
 #da=[list(map(int,input(i-1).split())) for i in range(3)]
 while 1:
@@ -137,7 +158,13 @@ while 1:
         if t in memo:            
             det_calculate(memo[t])
         else:
-            print("don't have {}".format(t))
+            print("don't have {}.".format(t))
+    elif s=='trace': #trace
+        t=input()
+        if t in memo:
+            trace(memo[t])
+        else:
+            print("don't have {}.".format(t))
     else: 
         length=len(s)
         a,b=-1,-1 #a =の位置,b 演算子の位置
