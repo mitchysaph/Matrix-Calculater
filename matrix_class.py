@@ -2,7 +2,7 @@ memo={} #matrixの保管場所
 
 class matrix:
     def __init__(self,name,contents,error):
-        self.neme=name
+        self.name=name
         self.contents=contents
         self.IsSquare=bool(len(contents)==len(contents[0]))
         self.error=error
@@ -127,17 +127,14 @@ def trace (x): #trace
         print(ans)
     else:
         print('{} is not square matrix.'.format(x.name))
+    return
 
 def transposed(x): #転置
-    if x.IsSquare:
-        calculate_answer.error=False
-        return
-    else:
-        n=len(x.contents)
-        ans=[[x.contents[j][i] for j in range(n)] for i in range(n)]
-        calculate_answer.contents=ans
-        calculate_answer.error=True
-        return
+    n=len(x.contents)
+    m=len(x.contents[0])
+    ans=[[x.contents[j][i] for j in range(m)] for i in range(n)]
+    calculate_answer.contents=ans
+    calculate_answer.error=True
 
 #da=[list(map(int,input(i-1).split())) for i in range(3)]
 while 1:
@@ -163,6 +160,13 @@ while 1:
         t=input()
         if t in memo:
             trace(memo[t])
+        else:
+            print("don't have {}.".format(t))
+    elif s=='transposed':
+        t=input()
+        if t in memo:
+            transposed(memo[t])
+            Outpu(calculate_answer.contents)
         else:
             print("don't have {}.".format(t))
     else: 
